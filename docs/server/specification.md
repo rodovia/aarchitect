@@ -60,3 +60,32 @@ Dispatched when a user sents a message
 ```
 
 `created_at` represents when the message was created, in UNIX timestamp format.
+
+### USER_REMOVE
+
+Sent when a user quits from the chat.
+
+```json
+{
+    "user": {
+        "username": "oJoão"
+    }
+}
+```
+
+### How to send messages
+
+The client can send messages using the `message_add` operation. It's short and simple:
+
+```json
+{
+    "operation": "message_add",
+    "data": {
+        "content": "Howdy!"
+    }
+}
+```
+
+If the payload is correct and it was sucessfully sent, the server will dispatch to all clients (including you) **MESSAGE_CREATE** event.
+
+
