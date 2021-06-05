@@ -1,0 +1,10 @@
+[package]
+name = "aarchitect"
+version = "0.1.0"
+authors = ["rodovia <rodoviabr102@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+gtk = "0.9.2"
+gio = "0.9.1"
+
