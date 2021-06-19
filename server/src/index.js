@@ -10,10 +10,10 @@ var wss = new WebsocketServer({ port: 9192 });
 
 wss.on("connection", (socket, request) => {
     tracers.addSequenceToSocket(socket);
-
+    
     socket.on("message", (data) => {
         let json = JSON.parse(data);
-        console.log(`Received from socket: ${data}`);
+        console.log(`-- Received from socket: ${data}\n`);
 
         if (json["operation"] === "identity") {
             let username = null;
@@ -43,11 +43,9 @@ wss.on("connection", (socket, request) => {
         if (json["operation"] === "message_add") {
             let date = Date.now();
             let data = {
-                message: {
                     content: json["data"]["content"],
                     created_at: parseInt(date.toString()),
                     author: usernames[socket]
-                }
             }
 
             warner.emitManyEvent(wss.clients, "MESSAGE_CREATE", data);
@@ -73,3 +71,5 @@ wss.on("connection", (socket, request) => {
         delete users[u];
     });
 });
+
+

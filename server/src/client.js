@@ -2,40 +2,41 @@
 
 const WebSocket = require("ws");
 const readline = require("readline");
+const socket = null;
 
-const socket = new WebSocket("ws://127.0.0.1:9192");
+const rl = readline.createInterface({
+    input: process.stdin, 
+    output: process.stdout
+  });
 
-socket.on("open", () => {
-    socket.send(JSON.stringify({
-        "operation": "identity",
-        "data": {
-            "username": "Rodoviajw"
+let username = rl.question("Nome de usuário: ");
+let ipAddress = rl.question("IP do servidor: ");
+
+const actualIpAddr = `ws://${ipAddress}:9192`;
+const webs = new WebSocket(actualIpAddr);
+
+webs.on("open", () => {
+    webs.send(JSON.stringify({
+        operation: "identity",
+        data: {
+            "username": username
         }
     }));
-
-    const reader = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
-
-    reader.question(">> ", answer => {
-        socket.send(JSON.stringify({
-            operation: "message_add",
-            data: {
-                content: answer
-            }
-        }));
-    });
+    
+    (async function () {
+        for await (const line of rl) {
+            console.log(line)
+        }
+    })();
+    
 });
 
-socket.on("message", (data) => {
-    const json = JSON.parse(data);
-    if (json["event"] == "MESSAGE_CREATE") {
-        let message = json["data"]["message"];
-        console.log(`${message["author"]}: ${message["content"]}`)
+webs.on("message", (data) => {
+    let dat = JSON.parse(data);
+    if (dat["operation"] == "dispatch") {
+        if (dat["event"] == "MESSAGE_CREATE") {
+            let content = dat["data"]["message"]["content"];
+            console.log(`${dat['event']['data']['message']['author']}: ${content}`);
+        }
     }
-});
-
-socket.on("close", (code, reason) => {
-    console.log(`WS disconnected with code ${code} (reason ${reason})`);
 });

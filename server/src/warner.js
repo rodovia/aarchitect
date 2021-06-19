@@ -23,8 +23,10 @@ function emitEvent(socket, event, data) {
     let template = getMessageTemplate(socket, "dispatch", data);
     template.event = event;
     tracers.increaseSequence(socket);
-    
-    socket.send(JSON.stringify(template));
+
+    let str = JSON.stringify(template);
+    socket.send(str);
+    console.log(`Sending to socket: ${str}`);
 }
 
 function getMessageTemplate(socket, operation, data) {

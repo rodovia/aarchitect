@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "readline-async": "^0.1.0",
+    "readline-sync": "^1.4.10",
     "ws": "^7.4.6"
   },
   "devDependencies": {

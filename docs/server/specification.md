@@ -73,6 +73,10 @@ Sent when a user quits from the chat.
 }
 ```
 
+# Operations
+
+This differs from events, since the client will never send a event to the server. That's why operations exists, to provide client-to-server interaction.
+
 ### How to send messages
 
 The client can send messages using the `message_add` operation. It's short and simple:
