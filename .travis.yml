@@ -1,12 +1,12 @@
 language: rust
 os: windows
 rust:
-	- stable
-	- beta
-	- nightly
+    - stable
+    - beta
+    - nightly
 jobs:
-	allow_failures:
-		- rust: nightly
-	fast_finish: true
+    allow_failures:
+        - rust: nightly
+    fast_finish: true
 script:
-	- cargo build --verbose
+    - cargo build --verbose
