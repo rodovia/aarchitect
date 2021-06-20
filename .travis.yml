@@ -16,4 +16,4 @@ deploy:
     file: "target/release/aarchitect.exe"
     on:
         tags: true
-
+    skip_cleanup: true
