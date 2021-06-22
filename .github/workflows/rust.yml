@@ -14,6 +14,12 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    - name: Skip Workflow
+      uses: saulmaldonado/skip-workflow@v1.1.0
+      with:
+        phrase: "[skip-ci]"
+        fail-fast: true
+
     - uses: actions/checkout@v2
     - name: Build
       run: cargo build --verbose --release
