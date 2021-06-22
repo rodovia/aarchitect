@@ -19,6 +19,7 @@ jobs:
       with:
         phrase: "[skip-ci]"
         fail-fast: true
+        github-token: ${{ secrets.GITHUB_TOKEN }}        
 
     - uses: actions/checkout@v2
     - name: Build
