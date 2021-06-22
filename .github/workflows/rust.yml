@@ -22,6 +22,6 @@ jobs:
       name: Upload artifacts
       with:
         name: aarchitect
-        path: target/debug/aarchitect.exe
+        path: target/release/aarchitect.exe
     
   
