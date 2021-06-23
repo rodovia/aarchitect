@@ -9,24 +9,38 @@ on:
 env:
   CARGO_TERM_COLOR: always
 
+# might change windows to macOS.
 jobs:
-  build:
+  skip-ci-check:
     runs-on: windows-latest
-
+    
+    outputs:
+      skip: ${{ steps.skip-ci.outputs.skip }}
+      
     steps:
-    - name: Skip Workflow
-      uses: saulmaldonado/skip-workflow@v1.1.0
-      with:
-        phrase: "[skip-ci]"
-        fail-fast: true
-        github-token: ${{ secrets.GITHUB_TOKEN }}        
+      - name: Skip Workflow
+        id: skip-ci
+        uses: saulmaldonado/skip-workflow@v1
+        with:
+          phrase: '[skip ci]'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
+
+  build:
+    needs: skip-ci-check
+    
+    if: ${{ !needs.skip-ci-check.outputs.skip }}
+    runs-on: windows-latest
+    
+    steps:
     - uses: actions/checkout@v2
     - name: Build
+      if: ${{ !steps.skip-workflow.outputs.skip }}
       run: cargo build --verbose --release
       
     - uses: actions/upload-artifact@v2
       name: Upload artifacts
+      if: ${{ !steps.skip-workflow.outputs.skip }}
       with:
         name: aarchitect
         path: target/release/aarchitect.exe
