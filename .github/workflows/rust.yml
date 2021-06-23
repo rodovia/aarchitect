@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Skip Workflow
         id: skip-ci
-        uses: saulmaldonado/skip-workflow@v1
+        uses: saulmaldonado/skip-workflow@v1.1.0
         with:
           phrase: '[skip ci]'
           github-token: ${{ secrets.GITHUB_TOKEN }}
