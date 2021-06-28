@@ -9,7 +9,6 @@ on:
 env:
   CARGO_TERM_COLOR: always
 
-# might change windows to macOS.
 jobs:
   skip-ci-check:
     runs-on: windows-latest
@@ -26,11 +25,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
 
-  build:
+  windows-build:
+    name: Windows
     needs: skip-ci-check
     
     if: ${{ !needs.skip-ci-check.outputs.skip }}
-    runs-on: windows-latest
+    runs-on: windows-2019
     
     steps:
     - uses: actions/checkout@v2
@@ -44,5 +44,28 @@ jobs:
       with:
         name: aarchitect
         path: target/release/aarchitect.exe
+        
+  darwin-build:
+    name: macOS build
+    if: ${{ !steps.skip-workflow.outputs.skip }}
+    runs-on: macos-latest
+    
+    steps:
+      - name: Install Rust Nightly
+        if: ${{ !steps.skip-workflow.outputs.skip }}
+        run: rustup toolchain install nightly && rustup default nightly
+      
+      - uses: actions/checkout@v2
+      - name: Build
+    
+        if: ${{ !steps.skip-workflow.outputs.skip }}
+        run: cargo build --verbose --release
+      
+      - uses: actions/upload-artifact@v2
+        name: Upload artifacts
+        if: ${{ !steps.skip-workflow.outputs.skip }}
+        with:
+          name: aarchitect
+          path: target/release/*.dmg
     
   
