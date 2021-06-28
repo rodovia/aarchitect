@@ -26,7 +26,7 @@ jobs:
 
 
   windows-build:
-    name: Windows
+    name: Windows Build
     needs: skip-ci-check
     
     if: ${{ !needs.skip-ci-check.outputs.skip }}
@@ -47,7 +47,7 @@ jobs:
         
   darwin-build:
     name: macOS build
-    if: ${{ !steps.skip-workflow.outputs.skip }}
+    if: ${{ !needs.skip-ci-check.outputs.skip }}
     runs-on: macos-latest
     
     steps:
